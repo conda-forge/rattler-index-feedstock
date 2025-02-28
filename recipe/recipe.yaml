@@ -1,6 +1,6 @@
 context:
   name: rattler-index
-  version: "0.21.0"
+  version: "0.21.1"
 
 package:
   name: ${{ name|lower }}
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://github.com/conda/rattler/archive/rattler_index-v${{ version }}.tar.gz
-  sha256: ae98caa85a6d66ffdb80dc5176a08e4972816db4841e481cc5372792b8857114
+  sha256: e7707284dcc448b02c5a9355028b3c23b755be8b8667c5d696cfceed8042680e
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
