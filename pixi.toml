@@ -4,7 +4,7 @@
 
 [project]
 name = "rattler-index-feedstock"
-version = "3.46.1"
+version = "3.47.0"
 description = "Pixi configuration for conda-forge/rattler-index-feedstock"
 authors = ["@conda-forge/rattler-index"]
 channels = ["conda-forge"]
