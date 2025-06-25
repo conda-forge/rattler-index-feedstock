@@ -12,6 +12,18 @@ source:
 
 build:
   number: 0
+  script:
+    env:
+      CARGO_PROFILE_RELEASE_STRIP: symbols
+      CARGO_PROFILE_RELEASE_LTO: fat
+    content:
+      - if: unix
+        then:
+          - export OPENSSL_DIR=$PREFIX
+      - cd crates/rattler_index
+      - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
+      - cargo auditable install --no-track --locked --features native-tls --features rattler_config --no-default-features --root ${{ PREFIX }} --path .
+
 
 requirements:
   build:
@@ -19,6 +31,7 @@ requirements:
     - ${{ stdlib('c') }}
     - ${{ compiler('rust') }}
     - cargo-bundle-licenses
+    - cargo-auditable
   host:
     - openssl
     - libiconv
