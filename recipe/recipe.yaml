@@ -1,6 +1,6 @@
 context:
   name: rattler-index
-  version: "0.25.2"
+  version: "0.26.0"
 
 package:
   name: ${{ name|lower }}
@@ -54,3 +54,4 @@ extra:
   recipe-maintainers:
     - delsner
     - pavelzw
+    - wolfv
