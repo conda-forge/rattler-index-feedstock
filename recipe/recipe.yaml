@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/conda/rattler/archive/rattler_index-v${{ version }}.tar.gz
-  sha256: fecc2f2af079aa73c4ef70d5c7028e29f565156843f4d1e3e96596ad7829a398
+  sha256: b33a8238bb45c8de235f74ce76ebd34682f5fe1c9214f5217b93a4699066570e
 
 build:
   number: 0
