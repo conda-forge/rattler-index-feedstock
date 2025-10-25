@@ -9,7 +9,7 @@ channel_targets:
 libiconv:
 - '1'
 openssl:
-- '3'
+- '3.5'
 rust_compiler:
 - rust
 target_platform:
