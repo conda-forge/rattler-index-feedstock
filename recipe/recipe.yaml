@@ -22,7 +22,7 @@ build:
           - export OPENSSL_DIR=$PREFIX
       - cd crates/rattler_index
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-      - cargo auditable install --no-track --locked --features native-tls --features rattler_config --no-default-features --root ${{ PREFIX }} --path .
+      - cargo auditable install --no-track --locked --features native-tls,rattler_config --no-default-features --root ${{ PREFIX }} --path .
 
 
 requirements:
@@ -39,6 +39,10 @@ requirements:
 tests:
   - script:
       - rattler-index --version
+  - package_contents:
+      bin:
+        - rattler-index
+      strict: true
 
 about:
   homepage: https://github.com/conda/rattler
