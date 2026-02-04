@@ -1,6 +1,6 @@
 context:
   name: rattler-index
-  version: "0.27.6"
+  version: "0.27.12"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/conda/rattler/archive/rattler_index-v${{ version }}.tar.gz
-  sha256: ec4d1d3293f5a7b965f11c08d00ee9235b73ae66c43dca2eb8859eafe421e900
+  sha256: f355a3948196a63022e6b21b5089110396aa3d6bf1359716fbee96bb07f20bf4
 
 build:
   number: 0
@@ -22,8 +22,9 @@ build:
           - export OPENSSL_DIR=$PREFIX
       - cd crates/rattler_index
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-      - cargo auditable install --no-track --locked --features native-tls --features rattler_config --no-default-features --root ${{ PREFIX }} --path .
-
+      # s3 feature requires rustls which (as of reqwest 0.12) requires ring which is only compatible with clang
+      # xref https://github.com/conda/rattler/pull/2033
+      - cargo auditable install --no-track --locked --features native-tls,rattler_config${{ ',s3' if target_platform != 'win-arm64' else '' }} --no-default-features --root ${{ PREFIX }} --path .
 
 requirements:
   build:
@@ -39,6 +40,10 @@ requirements:
 tests:
   - script:
       - rattler-index --version
+  - package_contents:
+      bin:
+        - rattler-index
+      strict: true
 
 about:
   homepage: https://github.com/conda/rattler
