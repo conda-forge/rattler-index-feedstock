@@ -22,8 +22,9 @@ build:
           - export OPENSSL_DIR=$PREFIX
       - cd crates/rattler_index
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-      - cargo auditable install --no-track --locked --features native-tls,rattler_config --no-default-features --root ${{ PREFIX }} --path .
-
+      # s3 feature requires rustls which (as of reqwest 0.12) requires ring which is only compatible with clang
+      # xref https://github.com/conda/rattler/pull/2033
+      - cargo auditable install --no-track --locked --features native-tls,rattler_config${{ ',s3' if target_platform != 'win-arm64' else '' }} --no-default-features --root ${{ PREFIX }} --path .
 
 requirements:
   build:
