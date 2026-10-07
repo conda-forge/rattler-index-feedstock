@@ -1,6 +1,6 @@
 context:
   name: rattler-index
-  version: "0.31.5"
+  version: "0.33.1"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/conda/rattler/archive/rattler_index-v${{ version }}.tar.gz
-  sha256: d10519a93389710ec66e3ddd4dc90a446233ed184077a1ba4c92e755a844cf99
+  sha256: daeb3ce8875929209231261e5f1263638550466f507141920b94ca7f1f7d63c2
 
 build:
   number: 0
@@ -20,6 +20,9 @@ build:
       - if: unix
         then:
           - export OPENSSL_DIR=$PREFIX
+          # CMake applies jitterentropy's required -O0 after conda's compiler flags.
+          - export AWS_LC_SYS_CMAKE_BUILDER=1
+          - export CMAKE_GENERATOR=Ninja
       - cd crates/rattler_index
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
       # s3 feature requires rustls which (as of reqwest 0.12) requires ring which is only compatible with clang
@@ -29,6 +32,11 @@ build:
 requirements:
   build:
     - ${{ compiler('c') }}
+    - if: unix
+      then:
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
     - ${{ stdlib('c') }}
     - ${{ compiler('rust') }}
     - cargo-bundle-licenses
