@@ -22,6 +22,7 @@ build:
           - export OPENSSL_DIR=$PREFIX
           # CMake applies jitterentropy's required -O0 after conda's compiler flags.
           - export AWS_LC_SYS_CMAKE_BUILDER=1
+          - export CMAKE_GENERATOR=Ninja
       - cd crates/rattler_index
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
       # s3 feature requires rustls which (as of reqwest 0.12) requires ring which is only compatible with clang
